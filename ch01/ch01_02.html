@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+<body>
+<svg id="my-drawing" width="450" height="450" xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
+
+	<script>
+		function createLine(x1, y1, x2, y2, sw) {
+			var line = document.createElementNS(NS, 'line');
+			line.setAttribute('x1', x1);
+			line.setAttribute('y1', y1);
+			line.setAttribute('x2', x2);
+			line.setAttribute('y2', y2);
+			line.style.stroke = 'black';
+			line.style["stroke-width"] = sw ? sw : 2;
+
+			return line;
+		}
+
+		function createPath(p) {
+			var path = document.createElementNS(NS, 'path');
+
+			path.setAttribute('d', p);
+			path.style.stroke = 'black';
+			path.style["stroke-width"] = 2;
+
+
+			return path;
+		}
+
+		function createAxis(x1, y1, x2, y2, direction) {
+			var axis = document.createElementNS(NS, 'g');
+
+			var line = createLine(x1, y1, x2, y2);
+			var ah;
+
+			//draw arrow head
+			if (direction === "v") {
+				var p = 'M' + x1 + ',' + y2 + ' L' + (x1 - 10*Math.sin(Math.PI/4)) + ',' + (maxY + 10*Math.cos(Math.PI/4));
+				p += ' M' + x1 + ',' + y2 + ' L' + (x1 + 10*Math.sin(Math.PI/4)) + ',' + (maxY + 10*Math.cos(Math.PI/4));
+
+				ah = createPath(p);
+			}
+
+			if (direction === "h") {
+				var p = 'M' + x2 + ',' + y1 + ' L' + (maxX - 10*Math.cos(Math.PI/4)) + ',' + (maxX - 10*Math.sin(Math.PI/4));
+				p += ' M' + x2 + ',' + y1 + ' L' + (maxX - 10*Math.cos(Math.PI/4)) + ',' + (maxX + 10*Math.sin(Math.PI/4));
+
+				ah = createPath(p);
+			}
+
+			axis.appendChild(line);
+			axis.appendChild(ah);
+
+			return axis;
+		}
+
+		function createLabel(x, y, txt) {
+			var text = document.createElementNS(NS, 'text');
+
+			text.setAttribute('x', x);
+			text.setAttribute('y', y);
+			text.style.font = 'Italic 1.1em Aerial';
+
+			var node = document.createTextNode(txt);
+			text.appendChild(node);
+
+			return text;
+		}
+
+		function createBar(x, y, w, h) {
+			var rect = document.createElementNS(NS, 'rect');
+
+			rect.setAttribute('x', x);
+			rect.setAttribute('y', y);
+			rect.setAttribute('width', w);
+			rect.setAttribute('height', h);
+			rect.style.fill = '#E13987';
+			rect.style.stroke = '#E13987';
+			rect.style['stroke-width'] = 2;
+
+			return rect;
+		}
+
+		function createMarker(cx, cy, r) {
+			var circle = document.createElementNS(NS, 'circle');
+
+			circle.setAttribute('cx', cx);
+			circle.setAttribute('cy', cy);
+			circle.setAttribute('r', r);
+			circle.style.fill = '#6F5092';
+			circle.style.stroke = '#6F5092';
+			circle.style['stroke-width'] = 2;
+
+			return circle;
+		}
+
+
+		var NS = "http://www.w3.org/2000/svg";
+		var svg = document.getElementById('my-drawing');
+
+		var samples = [100, 250, 175],
+					gutter = 50,
+					barWidth = 50,
+					x0 = 50,
+					y0 = 400,
+					markerRadius = 10;
+
+		//draw axes
+		var maxX = x0 + samples.length*(barWidth + gutter) + gutter;
+		var maxY = y0 - 250 - 50;
+		var xAxis = createAxis(x0, y0, maxX, y0, 'h');
+		var yAxis = createAxis(x0, y0, x0, maxY, 'v');
+
+		svg.appendChild(xAxis);
+		svg.appendChild(yAxis);
+
+		//create axis label
+		var xLabel = createLabel(maxX/2, y0 + 30, 'Samples');
+		var yLabel = createLabel(x0 - 20, y0 - (y0 - maxY)/2, 'Value');
+		yLabel.style['writing-mode'] = 'tb';
+		// yLabel.setAttribute('transform', 'rotate(' + (x0 - 20) + ',' + (y0 - (y0 - maxY)/2) + ',' + 90 + ')');
+
+		svg.appendChild(xLabel);
+		svg.appendChild(yLabel);
+
+		//draw bars
+		for (var i=0; i<samples.length; i++) {
+			var x, y, w = barWidth, h = samples[i];
+			x = x0 + gutter + i*(w + gutter);
+			y = y0 - h;
+
+			var bar = createBar(x, y, w, h);
+			var marker = createMarker(x + w/2, y, markerRadius);
+
+			svg.appendChild(bar);
+			svg.appendChild(marker);
+			
+		}
+
+		//draw area chart
+		var areaSamples = [20, 30, 20, 100, 140, 80, 40, 30, 60, 10, 75];
+		var n = areaSamples.length;
+		var gutter = (maxX - x0)/n;
+		var start = true;
+		var p = '';
+		for (var i=0; i<n; i++) {
+			var x = x0 + i*gutter , y = y0 - areaSamples[i];
+
+			if (start) {
+				p += 'M' + x + ',' + y;
+				start = false;
+			}
+			
+			p += ' L' + x + ',' + y;
+		}
+
+		//area - with border
+		var area = document.createElementNS(NS, 'path');
+		area.setAttribute('d', p);
+		area.style.stroke = '#00904B';
+		area.style['stroke-width'] = 2;
+		area.style.fill = 'none';
+
+		svg.appendChild(area);
+
+		//fill the area chart
+		var fillArea = document.createElementNS(NS, 'path');
+		p += ' L' + x + ',' + y0 + ' L' + x0 + ',' + y0 + ' Z';
+		fillArea.setAttribute('d', p);
+		fillArea.style.fill = '#64BD4F';
+
+		//transparency for the fill area
+		var defs = document.createElementNS(NS, 'defs');
+		var mask = document.createElementNS(NS, 'mask');
+		mask.setAttribute('id', 'areamask');
+		mask.setAttribute('x', 0);
+		mask.setAttribute('y', 0);
+		mask.setAttribute('width', 450);
+		mask.setAttribute('height', 450);
+		var fillArea1 = document.createElementNS(NS, 'path');
+		fillArea1.setAttribute('d', p);
+		fillArea1.style.fill = '#666666';
+		mask.appendChild(fillArea1);
+		defs.appendChild(mask);
+		svg.appendChild(defs);
+
+		fillArea.style.fill = '#64BD4F';
+		fillArea.setAttribute('mask', 'url(#areamask)');
+		svg.appendChild(fillArea);
+		
+		//show cross-hair
+	    var hl = createLine(-x0, -y0, -maxX, -y0);
+	    var vl = createLine(-x0, -y0, -x0, -maxY);
+	    hl.style['stroke-dasharray'] = [5,5];
+	    vl.style['stroke-dasharray'] = [5,5];
+	    svg.appendChild(hl);
+	    svg.appendChild(vl);
+		svg.addEventListener('mousemove', function(evt) {
+			var x = evt.offsetX, // - rect.left,
+		       	y = evt.offsetY; // - rect.top;
+
+
+		    //don't show the cross-hair if we are outside the chart area
+	        if (x < x0 || x > maxX || y < maxY || y > y0) {
+	        	return;
+	        }
+
+		    hl.setAttribute('x1', x0 - 5);
+		    hl.setAttribute('y1', y);
+		    hl.setAttribute('x2', maxX);
+		    hl.setAttribute('y2', y);
+	    	
+	    	vl.setAttribute('x1', x);
+		    vl.setAttribute('y1', maxY);
+		    vl.setAttribute('x2', x);
+		    vl.setAttribute('y2', y0 + 10);
+
+		});
+
+	</script>
+</body>
+
+</html>
