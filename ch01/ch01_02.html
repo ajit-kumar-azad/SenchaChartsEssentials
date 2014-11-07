@@ -19,12 +19,13 @@
 			return line;
 		}
 
-		function createPath(p) {
+		function createPath(p, stroke, fill) {
 			var path = document.createElementNS(NS, 'path');
 
 			path.setAttribute('d', p);
-			path.style.stroke = 'black';
+			path.style.stroke = stroke ? stroke : 'black';
 			path.style["stroke-width"] = 2;
+			path.style.fill = fill ? fill : 'none'
 
 
 			return path;
@@ -158,19 +159,12 @@
 		}
 
 		//area - with border
-		var area = document.createElementNS(NS, 'path');
-		area.setAttribute('d', p);
-		area.style.stroke = '#00904B';
-		area.style['stroke-width'] = 2;
-		area.style.fill = 'none';
-
+		var area = createPath(p, '#00904B');
 		svg.appendChild(area);
 
 		//fill the area chart
-		var fillArea = document.createElementNS(NS, 'path');
 		p += ' L' + x + ',' + y0 + ' L' + x0 + ',' + y0 + ' Z';
-		fillArea.setAttribute('d', p);
-		fillArea.style.fill = '#64BD4F';
+		var fillArea = createPath(p, 'none', '#64BD4F');
 
 		//transparency for the fill area
 		var defs = document.createElementNS(NS, 'defs');
@@ -199,8 +193,8 @@
 	    svg.appendChild(hl);
 	    svg.appendChild(vl);
 		svg.addEventListener('mousemove', function(evt) {
-			var x = evt.offsetX, // - rect.left,
-		       	y = evt.offsetY; // - rect.top;
+			var x = evt.offsetX,
+		       	y = evt.offsetY; 
 
 
 		    //don't show the cross-hair if we are outside the chart area
