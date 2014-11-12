@@ -46,8 +46,8 @@
 			}
 
 			if (direction === "h") {
-				var p = 'M' + x2 + ',' + y1 + ' L' + (maxX - 10*Math.cos(Math.PI/4)) + ',' + (maxX - 10*Math.sin(Math.PI/4));
-				p += ' M' + x2 + ',' + y1 + ' L' + (maxX - 10*Math.cos(Math.PI/4)) + ',' + (maxX + 10*Math.sin(Math.PI/4));
+				var p = 'M' + x2 + ',' + y1 + ' L' + (x2 - 10*Math.cos(Math.PI/4)) + ',' + (x2 - 10*Math.sin(Math.PI/4));
+				p += ' M' + x2 + ',' + y1 + ' L' + (x2 - 10*Math.cos(Math.PI/4)) + ',' + (x2 + 10*Math.sin(Math.PI/4));
 
 				ah = createPath(p);
 			}
@@ -193,8 +193,8 @@
 	    svg.appendChild(hl);
 	    svg.appendChild(vl);
 		svg.addEventListener('mousemove', function(evt) {
-			var x = evt.offsetX,
-		       	y = evt.offsetY; 
+			var x = evt.offsetX || evt.clientX,
+		       	y = evt.offsetY || evt.clientY; 
 
 
 		    //don't show the cross-hair if we are outside the chart area
