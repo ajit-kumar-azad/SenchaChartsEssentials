@@ -41,14 +41,12 @@
 			if (direction === "v") {
 				var p = 'M' + x1 + ',' + y2 + ' L' + (x1 - 10*Math.sin(Math.PI/4)) + ',' + (maxY + 10*Math.cos(Math.PI/4));
 				p += ' M' + x1 + ',' + y2 + ' L' + (x1 + 10*Math.sin(Math.PI/4)) + ',' + (maxY + 10*Math.cos(Math.PI/4));
-
 				ah = createPath(p);
 			}
 
 			if (direction === "h") {
 				var p = 'M' + x2 + ',' + y1 + ' L' + (x2 - 10*Math.cos(Math.PI/4)) + ',' + (x2 - 10*Math.sin(Math.PI/4));
 				p += ' M' + x2 + ',' + y1 + ' L' + (x2 - 10*Math.cos(Math.PI/4)) + ',' + (x2 + 10*Math.sin(Math.PI/4));
-
 				ah = createPath(p);
 			}
 
@@ -58,18 +56,22 @@
 			return axis;
 		}
 
-		function createLabel(x, y, txt) {
+		function createLabel(x, y, txt, direction) {
 			var text = document.createElementNS(NS, 'text');
 
 			text.setAttribute('x', x);
 			text.setAttribute('y', y);
 			text.style.font = 'Italic 1.1em Aerial';
+			if (direction === 'v') {
+				text.style['writing-mode'] = 'tb';
+			}
 
 			var node = document.createTextNode(txt);
 			text.appendChild(node);
 
 			return text;
 		}
+
 
 		function createBar(x, y, w, h) {
 			var rect = document.createElementNS(NS, 'rect');
@@ -120,14 +122,12 @@
 
 		//create axis label
 		var xLabel = createLabel(maxX/2, y0 + 30, 'Samples');
-		var yLabel = createLabel(x0 - 20, y0 - (y0 - maxY)/2, 'Value');
-		yLabel.style['writing-mode'] = 'tb';
-		// yLabel.setAttribute('transform', 'rotate(' + (x0 - 20) + ',' + (y0 - (y0 - maxY)/2) + ',' + 90 + ')');
+		var yLabel = createLabel(x0 - 20, y0 - (y0 - maxY)/2, 'Value', 'v');
 
 		svg.appendChild(xLabel);
 		svg.appendChild(yLabel);
 
-		//draw bars
+		// //draw bars
 		for (var i=0; i<samples.length; i++) {
 			var x, y, w = barWidth, h = samples[i];
 			x = x0 + gutter + i*(w + gutter);
@@ -141,14 +141,14 @@
 			
 		}
 
-		//draw area chart
+		// //draw area chart
 		var areaSamples = [20, 30, 20, 100, 140, 80, 40, 30, 60, 10, 75];
 		var n = areaSamples.length;
-		var gutter = (maxX - x0)/n;
+		var d = (maxX - x0)/n;	//distance between the points
 		var start = true;
 		var p = '';
 		for (var i=0; i<n; i++) {
-			var x = x0 + i*gutter , y = y0 - areaSamples[i];
+			var x = x0 + i*d , y = y0 - areaSamples[i];
 
 			if (start) {
 				p += 'M' + x + ',' + y;
@@ -162,7 +162,7 @@
 		var area = createPath(p, '#00904B');
 		svg.appendChild(area);
 
-		//fill the area chart
+		// //fill the area chart
 		p += ' L' + x + ',' + y0 + ' L' + x0 + ',' + y0 + ' Z';
 		var fillArea = createPath(p, 'none', '#64BD4F');
 
@@ -195,8 +195,6 @@
 		svg.addEventListener('mousemove', function(evt) {
 			var x = evt.offsetX || evt.clientX,
 		       	y = evt.offsetY || evt.clientY; 
-
-
 		    //don't show the cross-hair if we are outside the chart area
 	        if (x < x0 || x > maxX || y < maxY || y > y0) {
 	        	return;
