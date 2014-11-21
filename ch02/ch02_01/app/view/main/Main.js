@@ -13,11 +13,11 @@ Ext.define('SCE.view.main.Main', {
         xtype: 'cartesian',
         title: 'Chart',
         theme: 'sce',
+        interactions: ['crosshair', 'itemhighlight'],
         height: 500,
         width: 500,
         insetPadding: 40,
         legend: true,
-        interactions: ['crosshair', 'itemhighlight'],
         store: {
             fields: ['sample', 'value'],
             data: [
