@@ -1,7 +1,7 @@
-Ext.define('SCE.view.chart.theme.SCE', {
+Ext.define('SCE.view.chart.theme.Awesome', {
     extend: 'Ext.chart.theme.Base',
     singleton: true,
-    alias: 'chart.theme.sce',
+    alias: 'chart.theme.awesome',
 
     series: {
 	  defaults: {

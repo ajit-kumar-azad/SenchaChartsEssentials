@@ -3,7 +3,7 @@ Ext.define('SCE.view.main.Main', {
 
     xtype: 'app-main',
     
-    requires: ['SCE.view.chart.theme.SCE'],
+    requires: ['SCE.view.chart.theme.Awesome'],
 
     layout: {
         type: 'fit'
@@ -12,14 +12,14 @@ Ext.define('SCE.view.main.Main', {
     items: [{
         xtype: 'cartesian',
         title: 'Chart',
-        theme: 'sce',
+        theme: 'awesome',
         interactions: ['crosshair', 'itemhighlight'],
         height: 500,
         width: 500,
         insetPadding: 40,
         legend: true,
         store: {
-            fields: ['sample', 'value'],
+            fields: ['month', 'sales', 'order'],
             data: [
                 { month: 'Q1', sales: 100, order: 20 },
                 { month: 'Q2', sales: 250, order: 120 },
@@ -63,6 +63,13 @@ Ext.define('SCE.view.main.Main', {
             highlight: {
                 strokeStyle: '#094144',
                 fillStyle: '#60D5DB'
+            },
+            tooltip: {
+                trackMouse: true,
+                style: 'background: #fff',
+                renderer: function(storeItem, item) {
+                    this.setHtml(storeItem.get('month') + ': INR ' + storeItem.get('sales'));
+                }
             }
         }, {
             type: 'area',

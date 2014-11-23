@@ -8,7 +8,7 @@ Ext.define('SCE.view.main.Main', {
     },
 
     items: {
-        xtype: 'polar',
+        xtype: 'spacefilling',
         series: {
             type: 'gauge',
             minimum: 100,
