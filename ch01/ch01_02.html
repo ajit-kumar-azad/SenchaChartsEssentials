@@ -6,213 +6,213 @@
 <svg id="my-drawing" width="450" height="450" xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
 
-	<script>
-		function createLine(x1, y1, x2, y2, sw) {
-			var line = document.createElementNS(NS, 'line');
-			line.setAttribute('x1', x1);
-			line.setAttribute('y1', y1);
-			line.setAttribute('x2', x2);
-			line.setAttribute('y2', y2);
-			line.style.stroke = 'black';
-			line.style["stroke-width"] = sw ? sw : 2;
+<script>
+	var NS = "http://www.w3.org/2000/svg";
+	function createLine(x1, y1, x2, y2, sw) {
+		var line = document.createElementNS(NS, 'line');
+		line.setAttribute('x1', x1);
+		line.setAttribute('y1', y1);
+		line.setAttribute('x2', x2);
+		line.setAttribute('y2', y2);
+		line.style.stroke = 'black';
+		line.style["stroke-width"] = sw ? sw : 2;
 
-			return line;
+		return line;
+	}
+
+	function createPath(p, stroke, fill) {
+		var path = document.createElementNS(NS, 'path');
+
+		path.setAttribute('d', p);
+		path.style.stroke = stroke ? stroke : 'black';
+		path.style["stroke-width"] = 2;
+		path.style.fill = fill ? fill : 'none'
+
+
+		return path;
+	}
+
+	function createAxis(x1, y1, x2, y2, direction) {
+		var axis = document.createElementNS(NS, 'g');
+
+		var line = createLine(x1, y1, x2, y2);
+		var ah;
+
+		//draw arrow head
+		if (direction === "v") {
+			var p = 'M' + x1 + ',' + y2 + ' L' + (x1 - 10*Math.sin(Math.PI/4)) + ',' + (maxY + 10*Math.cos(Math.PI/4));
+			p += ' M' + x1 + ',' + y2 + ' L' + (x1 + 10*Math.sin(Math.PI/4)) + ',' + (maxY + 10*Math.cos(Math.PI/4));
+			ah = createPath(p);
 		}
 
-		function createPath(p, stroke, fill) {
-			var path = document.createElementNS(NS, 'path');
-
-			path.setAttribute('d', p);
-			path.style.stroke = stroke ? stroke : 'black';
-			path.style["stroke-width"] = 2;
-			path.style.fill = fill ? fill : 'none'
-
-
-			return path;
+		if (direction === "h") {
+			var p = 'M' + x2 + ',' + y1 + ' L' + (x2 - 10*Math.cos(Math.PI/4)) + ',' + (x2 - 10*Math.sin(Math.PI/4));
+			p += ' M' + x2 + ',' + y1 + ' L' + (x2 - 10*Math.cos(Math.PI/4)) + ',' + (x2 + 10*Math.sin(Math.PI/4));
+			ah = createPath(p);
 		}
 
-		function createAxis(x1, y1, x2, y2, direction) {
-			var axis = document.createElementNS(NS, 'g');
+		axis.appendChild(line);
+		axis.appendChild(ah);
 
-			var line = createLine(x1, y1, x2, y2);
-			var ah;
+		return axis;
+	}
 
-			//draw arrow head
-			if (direction === "v") {
-				var p = 'M' + x1 + ',' + y2 + ' L' + (x1 - 10*Math.sin(Math.PI/4)) + ',' + (maxY + 10*Math.cos(Math.PI/4));
-				p += ' M' + x1 + ',' + y2 + ' L' + (x1 + 10*Math.sin(Math.PI/4)) + ',' + (maxY + 10*Math.cos(Math.PI/4));
-				ah = createPath(p);
-			}
+	function createLabel(x, y, txt, direction) {
+		var text = document.createElementNS(NS, 'text');
 
-			if (direction === "h") {
-				var p = 'M' + x2 + ',' + y1 + ' L' + (x2 - 10*Math.cos(Math.PI/4)) + ',' + (x2 - 10*Math.sin(Math.PI/4));
-				p += ' M' + x2 + ',' + y1 + ' L' + (x2 - 10*Math.cos(Math.PI/4)) + ',' + (x2 + 10*Math.sin(Math.PI/4));
-				ah = createPath(p);
-			}
-
-			axis.appendChild(line);
-			axis.appendChild(ah);
-
-			return axis;
+		text.setAttribute('x', x);
+		text.setAttribute('y', y);
+		text.style.font = 'Italic 1.1em Aerial';
+		if (direction === 'v') {
+			text.style['writing-mode'] = 'tb';
 		}
 
-		function createLabel(x, y, txt, direction) {
-			var text = document.createElementNS(NS, 'text');
+		var node = document.createTextNode(txt);
+		text.appendChild(node);
 
-			text.setAttribute('x', x);
-			text.setAttribute('y', y);
-			text.style.font = 'Italic 1.1em Aerial';
-			if (direction === 'v') {
-				text.style['writing-mode'] = 'tb';
-			}
-
-			var node = document.createTextNode(txt);
-			text.appendChild(node);
-
-			return text;
-		}
+		return text;
+	}
 
 
-		function createBar(x, y, w, h) {
-			var rect = document.createElementNS(NS, 'rect');
+	function createBar(x, y, w, h) {
+		var rect = document.createElementNS(NS, 'rect');
 
-			rect.setAttribute('x', x);
-			rect.setAttribute('y', y);
-			rect.setAttribute('width', w);
-			rect.setAttribute('height', h);
-			rect.style.fill = '#E13987';
-			rect.style.stroke = '#E13987';
-			rect.style['stroke-width'] = 2;
+		rect.setAttribute('x', x);
+		rect.setAttribute('y', y);
+		rect.setAttribute('width', w);
+		rect.setAttribute('height', h);
+		rect.style.fill = '#E13987';
+		rect.style.stroke = '#E13987';
+		rect.style['stroke-width'] = 2;
 
-			return rect;
-		}
+		return rect;
+	}
 
-		function createMarker(cx, cy, r) {
-			var circle = document.createElementNS(NS, 'circle');
+	function createMarker(cx, cy, r) {
+		var circle = document.createElementNS(NS, 'circle');
 
-			circle.setAttribute('cx', cx);
-			circle.setAttribute('cy', cy);
-			circle.setAttribute('r', r);
-			circle.style.fill = '#6F5092';
-			circle.style.stroke = '#6F5092';
-			circle.style['stroke-width'] = 2;
+		circle.setAttribute('cx', cx);
+		circle.setAttribute('cy', cy);
+		circle.setAttribute('r', r);
+		circle.style.fill = '#6F5092';
+		circle.style.stroke = '#6F5092';
+		circle.style['stroke-width'] = 2;
 
-			return circle;
-		}
+		return circle;
+	}
 
 
-		var NS = "http://www.w3.org/2000/svg";
-		var svg = document.getElementById('my-drawing');
+	var svg = document.getElementById('my-drawing');
 
-		var samples = [100, 250, 175],
-					gutter = 50,
-					barWidth = 50,
-					x0 = 50,
-					y0 = 400,
-					markerRadius = 10;
+	var samples = [100, 250, 175],
+				gutter = 50,
+				barWidth = 50,
+				x0 = 50,
+				y0 = 400,
+				markerRadius = 10;
 
-		//draw axes
-		var maxX = x0 + samples.length*(barWidth + gutter) + gutter;
-		var maxY = y0 - 250 - 50;
-		var xAxis = createAxis(x0, y0, maxX, y0, 'h');
-		var yAxis = createAxis(x0, y0, x0, maxY, 'v');
+	//draw axes
+	var maxX = x0 + samples.length*(barWidth + gutter) + gutter;
+	var maxY = y0 - 250 - 50;
+	var xAxis = createAxis(x0, y0, maxX, y0, 'h');
+	var yAxis = createAxis(x0, y0, x0, maxY, 'v');
 
-		svg.appendChild(xAxis);
-		svg.appendChild(yAxis);
+	svg.appendChild(xAxis);
+	svg.appendChild(yAxis);
 
-		//create axis label
-		var xLabel = createLabel(maxX/2, y0 + 30, 'Samples');
-		var yLabel = createLabel(x0 - 20, y0 - (y0 - maxY)/2, 'Value', 'v');
+	//create axis label
+	var xLabel = createLabel(maxX/2, y0 + 30, 'Samples');
+	var yLabel = createLabel(x0 - 20, y0 - (y0 - maxY)/2, 'Value', 'v');
 
-		svg.appendChild(xLabel);
-		svg.appendChild(yLabel);
+	svg.appendChild(xLabel);
+	svg.appendChild(yLabel);
 
-		// //draw bars
-		for (var i=0; i<samples.length; i++) {
-			var x, y, w = barWidth, h = samples[i];
-			x = x0 + gutter + i*(w + gutter);
-			y = y0 - h;
+	// //draw bars
+	for (var i=0; i<samples.length; i++) {
+		var x, y, w = barWidth, h = samples[i];
+		x = x0 + gutter + i*(w + gutter);
+		y = y0 - h;
 
-			var bar = createBar(x, y, w, h);
-			var marker = createMarker(x + w/2, y, markerRadius);
+		var bar = createBar(x, y, w, h);
+		var marker = createMarker(x + w/2, y, markerRadius);
 
-			svg.appendChild(bar);
-			svg.appendChild(marker);
-			
-		}
-
-		// //draw area chart
-		var areaSamples = [20, 30, 20, 100, 140, 80, 40, 30, 60, 10, 75];
-		var n = areaSamples.length;
-		var d = (maxX - x0)/n;	//distance between the points
-		var start = true;
-		var p = '';
-		for (var i=0; i<n; i++) {
-			var x = x0 + i*d , y = y0 - areaSamples[i];
-
-			if (start) {
-				p += 'M' + x + ',' + y;
-				start = false;
-			}
-			
-			p += ' L' + x + ',' + y;
-		}
-
-		//area - with border
-		var area = createPath(p, '#00904B');
-		svg.appendChild(area);
-
-		// //fill the area chart
-		p += ' L' + x + ',' + y0 + ' L' + x0 + ',' + y0 + ' Z';
-		var fillArea = createPath(p, 'none', '#64BD4F');
-
-		//transparency for the fill area
-		var defs = document.createElementNS(NS, 'defs');
-		var mask = document.createElementNS(NS, 'mask');
-		mask.setAttribute('id', 'areamask');
-		mask.setAttribute('x', 0);
-		mask.setAttribute('y', 0);
-		mask.setAttribute('width', 450);
-		mask.setAttribute('height', 450);
-		var fillArea1 = document.createElementNS(NS, 'path');
-		fillArea1.setAttribute('d', p);
-		fillArea1.style.fill = '#666666';
-		mask.appendChild(fillArea1);
-		defs.appendChild(mask);
-		svg.appendChild(defs);
-
-		fillArea.style.fill = '#64BD4F';
-		fillArea.setAttribute('mask', 'url(#areamask)');
-		svg.appendChild(fillArea);
+		svg.appendChild(bar);
+		svg.appendChild(marker);
 		
-		//show cross-hair
-	    var hl = createLine(-x0, -y0, -maxX, -y0);
-	    var vl = createLine(-x0, -y0, -x0, -maxY);
-	    hl.style['stroke-dasharray'] = [5,5];
-	    vl.style['stroke-dasharray'] = [5,5];
-	    svg.appendChild(hl);
-	    svg.appendChild(vl);
-		svg.addEventListener('mousemove', function(evt) {
-			var x = evt.offsetX || evt.clientX,
-		       	y = evt.offsetY || evt.clientY; 
-		    //don't show the cross-hair if we are outside the chart area
-	        if (x < x0 || x > maxX || y < maxY || y > y0) {
-	        	return;
-	        }
+	}
 
-		    hl.setAttribute('x1', x0 - 5);
-		    hl.setAttribute('y1', y);
-		    hl.setAttribute('x2', maxX);
-		    hl.setAttribute('y2', y);
-	    	
-	    	vl.setAttribute('x1', x);
-		    vl.setAttribute('y1', maxY);
-		    vl.setAttribute('x2', x);
-		    vl.setAttribute('y2', y0 + 10);
+	// //draw area chart
+	var areaSamples = [20, 30, 20, 100, 140, 80, 40, 30, 60, 10, 75];
+	var n = areaSamples.length;
+	var d = (maxX - x0)/n;	//distance between the points
+	var start = true;
+	var p = '';
+	for (var i=0; i<n; i++) {
+		var x = x0 + i*d , y = y0 - areaSamples[i];
 
-		});
+		if (start) {
+			p += 'M' + x + ',' + y;
+			start = false;
+		}
+		
+		p += ' L' + x + ',' + y;
+	}
 
-	</script>
+	//area - with border
+	var area = createPath(p, '#00904B');
+	svg.appendChild(area);
+
+	// //fill the area chart
+	p += ' L' + x + ',' + y0 + ' L' + x0 + ',' + y0 + ' Z';
+	var fillArea = createPath(p, 'none', '#64BD4F');
+
+	//transparency for the fill area
+	var defs = document.createElementNS(NS, 'defs');
+	var mask = document.createElementNS(NS, 'mask');
+	mask.setAttribute('id', 'areamask');
+	mask.setAttribute('x', 0);
+	mask.setAttribute('y', 0);
+	mask.setAttribute('width', 450);
+	mask.setAttribute('height', 450);
+	var fillArea1 = document.createElementNS(NS, 'path');
+	fillArea1.setAttribute('d', p);
+	fillArea1.style.fill = '#666666';
+	mask.appendChild(fillArea1);
+	defs.appendChild(mask);
+	svg.appendChild(defs);
+
+	fillArea.style.fill = '#64BD4F';
+	fillArea.setAttribute('mask', 'url(#areamask)');
+	svg.appendChild(fillArea);
+	
+	//show cross-hair
+    var hl = createLine(-x0, -y0, -maxX, -y0);
+    var vl = createLine(-x0, -y0, -x0, -maxY);
+    hl.style['stroke-dasharray'] = [5,5];
+    vl.style['stroke-dasharray'] = [5,5];
+    svg.appendChild(hl);
+    svg.appendChild(vl);
+	svg.addEventListener('mousemove', function(evt) {
+		var x = evt.offsetX || evt.clientX,
+	       	y = evt.offsetY || evt.clientY; 
+	    //don't show the cross-hair if we are outside the chart area
+        if (x < x0 || x > maxX || y < maxY || y > y0) {
+        	return;
+        }
+
+	    hl.setAttribute('x1', x0 - 5);
+	    hl.setAttribute('y1', y);
+	    hl.setAttribute('x2', maxX);
+	    hl.setAttribute('y2', y);
+    	
+    	vl.setAttribute('x1', x);
+	    vl.setAttribute('y1', maxY);
+	    vl.setAttribute('x2', x);
+	    vl.setAttribute('y2', y0 + 10);
+
+	});
+
+</script>
 </body>
 
 </html>

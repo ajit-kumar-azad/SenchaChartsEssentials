@@ -2,7 +2,6 @@
 <html>
 	<head>
 	</head>
-
 <body>
 <canvas id="my-canvas" width="450" height="450" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
 <canvas id="overlay" width="450" height="450" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
@@ -12,8 +11,8 @@
 		ctx.beginPath();
 		ctx.moveTo(x1, y1);
 		ctx.lineTo(x2, y2);
-		ctx.lineWidth = sw ? sw : 2,
-		ctx.strokeStyle = 'black',
+		ctx.lineWidth = sw ? sw : 2;
+		ctx.strokeStyle = 'black';
 		ctx.stroke();
 		ctx.closePath();
 	}
@@ -22,18 +21,6 @@
 		createLine(ctx, x1, y1, x2, y2);
 
 		//draw arrow head
-		if (direction === "h") {
-			ctx.beginPath();
-			ctx.moveTo(x2, y1);
-			ctx.lineTo(x2 - 10*Math.cos(Math.PI/4), x2 - 10*Math.sin(Math.PI/4));
-			ctx.moveTo(x2, y1);
-			ctx.lineTo(x2 - 10*Math.cos(Math.PI/4), x2 + 10*Math.sin(Math.PI/4));
-			ctx.lineWidth = 2,
-			ctx.strokeStyle = 'black',
-			ctx.stroke();
-			ctx.closePath();
-		}
-
 		if (direction === "v") {
 			ctx.beginPath();
 			ctx.moveTo(x1, y2);
@@ -46,6 +33,17 @@
 			ctx.closePath();
 		}
 
+		if (direction === "h") {
+			ctx.beginPath();
+			ctx.moveTo(x2, y1);
+			ctx.lineTo(x2 - 10*Math.cos(Math.PI/4), x2 - 10*Math.sin(Math.PI/4));
+			ctx.moveTo(x2, y1);
+			ctx.lineTo(x2 - 10*Math.cos(Math.PI/4), x2 + 10*Math.sin(Math.PI/4));
+			ctx.lineWidth = 2;
+			ctx.strokeStyle = 'black';
+			ctx.stroke();
+			ctx.closePath();
+		}
 	}
 
 	function createLabel(ctx, x, y, txt, direction) {
@@ -64,31 +62,26 @@
 		}
 	}
 
-
-
-
 	function createBar(ctx, x, y, w, h) {
 		ctx.beginPath();				
 		ctx.moveTo(x, y);
 		ctx.rect(x, y, w, h);
 
 		ctx.fillStyle = '#E13987';
-		ctx.lineWidth = 2,
-		ctx.strokeStyle = '#E13987',
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = '#E13987';
 		ctx.stroke();
 		ctx.fill();
 		ctx.closePath();
 	}
-
-
 
 	function createMarker(ctx, cx, cy, r) {
 		ctx.beginPath();
 
 		ctx.arc(cx, cy, r, 0, 2*Math.PI, false);
 		ctx.fillStyle = '#6F5092';
-		ctx.lineWidth = 2,
-		ctx.strokeStyle = '#6F5092',
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = '#6F5092';
 		ctx.stroke();
 		ctx.fill();
 
@@ -116,12 +109,7 @@
 	createLabel(ctx, maxX/2, y0 + 30, 'Samples');
 	createLabel(ctx, x0 - 20, y0 - (y0 - maxY)/2, 'Value', 'v');
 
-
-
-
-
-
-	// //draw bars
+	//draw bars
 	for (var i=0; i<samples.length; i++) {
 		var x, y, w = barWidth, h = samples[i];
 		x = x0 + gutter + i*(w + gutter);
@@ -131,10 +119,7 @@
 		createMarker(ctx, x + w/2, y, markerRadius);
 	}
 	
-
-
-
-	// //draw area chart
+	//draw area chart
 	var areaSamples = [20, 30, 20, 100, 140, 80, 40, 30, 60, 10, 75];
 	var n = areaSamples.length;
 	var d = (maxX - x0)/n;	//distance between the points
@@ -154,10 +139,7 @@
 	ctx.stroke();
 	ctx.closePath();
 
-
-
-
-	// //fill the area chart
+	//fill the area chart
 	start = true;
 	ctx.globalAlpha = 0.5;
 	ctx.fillStyle = '#64BD4F';
@@ -178,13 +160,7 @@
 	ctx.fill();
 	ctx.closePath();
 
-
-
-
-
-
-
-	// //show cross-hair
+	//show cross-hair
 	var overlay = document.getElementById('overlay');
 	var overCtx = overlay.getContext('2d');
 
