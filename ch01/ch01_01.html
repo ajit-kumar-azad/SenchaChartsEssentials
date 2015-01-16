@@ -165,7 +165,7 @@
 	var overCtx = overlay.getContext('2d');
 
 	var lineDash = overCtx.getLineDash();
-	overCtx.setLineDash([2,3]);
+	overCtx.setLineDash([5,5]);
 	overlay.addEventListener('mousemove', function(evt) {
 		overCtx.clearRect(0, 0, overlay.width, overlay.height);
 		var rect = overlay.getBoundingClientRect();
