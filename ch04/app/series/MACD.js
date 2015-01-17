@@ -45,20 +45,21 @@ Ext.define('SCE.series.MACD', {
 
         var me = this;
 
-        var st = Ext.data.StoreManager.lookup(config.store);
-        var recs = st.getRange();
-        var closes = Ext.Array.pluck(Ext.Array.pluck(recs, "data"), config.closeField);
+        var store = Ext.getStore(config.store);
+        var records = store.getRange();
+        var closes = Ext.Array.pluck(Ext.Array.pluck(records, "data"), config.closeField);
 
         var p1 = config.period1, ema1Arr = [], ema1 = 0, prevEma1;
         var p2 = config.period2, ema2Arr = [], ema2 = 0, prevEma2;
         var sp = config.signalPeriod, ema3 = 0, prevEma3;
         var close, macd, macdArr = [];
 
+        //calculate multipliers
         var mult1 = 2/(p1 + 1);
         var mult2 = 2/(p2 + 1);
         var mult3 = 2/(sp + 1);
 
-        st.each(function (item, index, length) {
+        store.each(function (item, index, length) {
             close = item.data[config.closeField];
 
             //Calculate MACD

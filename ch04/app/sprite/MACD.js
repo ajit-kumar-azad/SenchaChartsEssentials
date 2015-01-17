@@ -20,32 +20,8 @@ Ext.define('SCE.sprite.MACD', {
             xx = matrix.getXX(),
             yy = matrix.getYY(),
             dx = matrix.getDX(),
-            dy = matrix.getDY(),
-            list = this.list || (this.list = []),
-            i,
-            minXs = aggregates.minX,
-            maxXs = aggregates.maxX,
-            minYs = aggregates.minY,
-            maxYs = aggregates.maxY,
-            idx = aggregates.startIdx;
+            dy = matrix.getDY();
 
-        list.length = 0;
-        for (i = start; i < end; i++) {
-            var minX = minXs[i],
-                maxX = maxXs[i],
-                minY = minYs[i],
-                maxY = maxYs[i];
-
-            if (minX < maxX) {
-                list.push(minX * xx + dx, minY * yy + dy, idx[i]);
-                list.push(maxX * xx + dx, maxY * yy + dy, idx[i]);
-            } else if (minX > maxX) {
-                list.push(maxX * xx + dx, maxY * yy + dy, idx[i]);
-                list.push(minX * xx + dx, minY * yy + dy, idx[i]);
-            } else {
-                list.push(maxX * xx + dx, maxY * yy + dy, idx[i]);
-            }
-        }
 
         var pixelAdjust = attr.lineWidth * surface.devicePixelRatio / 2;
 
