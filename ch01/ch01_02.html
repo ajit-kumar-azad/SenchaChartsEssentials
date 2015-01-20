@@ -73,7 +73,6 @@
 		return text;
 	}
 
-
 	function createBar(x, y, w, h) {
 		var rect = document.createElementNS(NS, 'rect');
 
@@ -101,7 +100,6 @@
 		return circle;
 	}
 
-
 	var svg = document.getElementById('my-drawing');
 
 	var samples = [100, 250, 175],
@@ -127,7 +125,7 @@
 	svg.appendChild(xLabel);
 	svg.appendChild(yLabel);
 
-	// //draw bars
+	//draw bars
 	for (var i=0; i<samples.length; i++) {
 		var x, y, w = barWidth, h = samples[i];
 		x = x0 + gutter + i*(w + gutter);
@@ -141,7 +139,7 @@
 		
 	}
 
-	// //draw area chart
+	//draw area chart
 	var areaSamples = [20, 30, 20, 100, 140, 80, 40, 30, 60, 10, 75];
 	var n = areaSamples.length;
 	var d = (maxX - x0)/n;	//distance between the points
@@ -162,7 +160,7 @@
 	var area = createPath(p, '#00904B');
 	svg.appendChild(area);
 
-	// //fill the area chart
+	//fill the area chart
 	p += ' L' + x + ',' + y0 + ' L' + x0 + ',' + y0 + ' Z';
 	var fillArea = createPath(p, 'none', '#64BD4F');
 
