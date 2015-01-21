@@ -23,9 +23,7 @@ Ext.define('SCE.series.PeriodicTable', {
         // Return cached sprites
         var chart = me.getChart(),
             animation = me.getAnimation() || chart && chart.getAnimation(),
-            sprites = me.sprites,
-            spriteIndex = 0,
-            sprite, attr, rendererData;
+            sprites = me.sprites;
 
         if (sprites && sprites.length) {
             sprites[0].fx.setConfig(animation);
