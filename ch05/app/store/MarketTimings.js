@@ -5,11 +5,11 @@ Ext.define('SCE.store.MarketTimings', {
 		storeId: 'MarketTimings',
 		fields: ['market', 'opening', 'closing'],
 		data: [
-			{ market: 'India', opening: '09:00AM', closing: '05:00PM', data: 12},
-			{ market: 'Sydney', opening: '03:00AM', closing: '11:00AM', data: 4},
-			{ market: 'Singapore', opening: '06:00AM', closing: '02:00PM', data: 24},
-			{ market: 'USA', opening: '11:00PM', closing: '05:00AM', data: 8},
-			{ market: 'Malaysia', opening: '06:00AM', closing: '02:00PM', data: 12}
+			{ market: 'India', opening: '09:00AM', closing: '12:00PM'},
+			{ market: 'Sydney', opening: '03:00AM', closing: '11:00AM'},
+			{ market: 'Singapore', opening: '06:00AM', closing: '09:00AM'},
+			{ market: 'USA', opening: '05:00AM', closing: '11:00AM'},
+			{ market: 'Malaysia', opening: '01:00AM', closing: '10:00AM'}
 		]
 	}
 });

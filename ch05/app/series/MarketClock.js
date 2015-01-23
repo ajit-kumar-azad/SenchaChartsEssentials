@@ -10,40 +10,49 @@ Ext.define('SCE.series.MarketClock', {
 	
     getSprites: function () {
         var me = this,
-            chart = me.getChart(),
             store = me.getStore();
-        if (!chart || !store) {
+        if (!store) {
             return [];
         }
 
 
-        me.getColors();
-        me.getSubStyle();
         var items = store.getData().items,
             length = items.length,
-            animation = me.getAnimation() || chart && chart.getAnimation(),
             sprites = me.sprites, sprite,
-            spriteIndex = 0, rendererData,
-            i, spriteCreated = false,
-            label = me.getLabel(),
-            labelTpl = label.getTemplate();
+            i;
+
+        var openingDt, closingDt;
+        var anglePerHr = (Math.PI*2)/12;
+        var anglePerMin = (Math.PI*2)/60;
 
         for (i = 0; i < length; i++) {
-        	// console.log('Iter: ' + i);
             sprite = sprites[i];
             if (!sprite) {
                 sprite = me.createSprite();
 
-                
-                sprite.setAttributes(me.getStyleByIndex(i));
-                // sprite.rendererData = rendererData;
-                // sprite.rendererIndex = spriteIndex++;
-                spriteCreated = true;
+                //calculate sector startAngle and endAngle based
+                //on the opening and closing timings
+                openingDt =  Ext.Date.parse(items[i].get('opening'), 'h:iA');
+                closingDt =  Ext.Date.parse(items[i].get('closing'), 'h:iA');
+
+                var openingHr = Ext.Date.format(openingDt, 'G') * 1;
+                var openingMin = Ext.Date.format(openingDt, 'i') * 1;
+                var closingHr = Ext.Date.format(closingDt, 'G') * 1;
+                var closingMin = Ext.Date.format(closingDt, 'i') * 1;
+
+                var startAngle = anglePerHr*openingHr + anglePerMin*openingMin - (Math.PI/2);
+                var endAngle = anglePerHr*closingHr + anglePerMin*closingMin - (Math.PI/2);
+
+                var attr = {
+                    text: items[i].get('market'),
+                    startAngle: startAngle,
+                    endAngle: endAngle,
+                    startRho: 30*i + 50,
+                    endRho: 30*i + 80
+                };
+
+                sprite.setAttributes(attr, true);
             }
-            sprite.fx.setConfig(animation);
-        }
-        if (spriteCreated) {
-            me.doUpdateStyles();
         }
 
         return me.sprites;
@@ -52,8 +61,8 @@ Ext.define('SCE.series.MarketClock', {
     getDefaultSpriteConfig: function() {
         return {
             type: this.seriesType,
-            centerX: ,
-            centerY: 
+            centerX: 340,
+            centerY: 340
         };
     }
 });

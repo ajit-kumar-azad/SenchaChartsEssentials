@@ -8,17 +8,12 @@ Ext.define('SCE.view.main.Main', {
     ],
 
     xtype: 'app-main',
-    layout: 'fit',
-    width: 500,
-    height: 500,
 
     items: [{
             xtype: 'marketclock',
-            width: '100%',
-            height: 500,
+            height: 700,
+            width: 700,
             store: Ext.create('SCE.store.MarketTimings'),
-            insetPadding: 50,
-            innerPadding: 20,
             series: [{
                 type: 'marketclock',
                 angleField: 'data'
