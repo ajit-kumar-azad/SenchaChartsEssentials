@@ -47,8 +47,8 @@ Ext.define('SCE.series.MarketClock', {
                     text: items[i].get('market'),
                     startAngle: startAngle,
                     endAngle: endAngle,
-                    startRho: 30*i + 50,
-                    endRho: 30*i + 80
+                    startRho: 0,
+                    endRho: 0
                 };
 
                 sprite.setAttributes(attr, true);
@@ -59,10 +59,68 @@ Ext.define('SCE.series.MarketClock', {
     },
 
     getDefaultSpriteConfig: function() {
+
         return {
             type: this.seriesType,
-            centerX: 340,
-            centerY: 340
+            centerX: 0,
+            centerY: 0
         };
+    },
+
+    provideLegendInfo: function (target) {
+        var me = this,
+            store = me.getStore();
+        if (store) {
+            var items = store.getData().items,
+                i, style;
+
+            for (i = 0; i < items.length; i++) {
+                style = me.getStyleByIndex(i);
+                target.push({
+                    name: items[i].get('market'),
+                    mark: style.fillStyle || 'black',
+                    disabled: false,
+                    series: me.getId(),
+                    index: i
+                });
+            }
+        }
+    },
+
+    setHiddenByIndex: function (index, value) {
+        var sprites = this.sprites;
+
+        if (sprites) {
+            sprites[index].setAttributes({hidden: value}, true);
+        }
+    },
+
+    updateCenter: function (center) {
+        this.setStyle({
+            centerX: center[0] + this.getOffsetX(),
+            centerY: center[1] + this.getOffsetY()
+        });
+        this.doUpdateStyles();
+    },
+
+    updateRadius: function (radius) {
+        var offsetFromCenter = 30;
+        var sprites = this.sprites;
+        var clockEdgeWidth = this.getChart().getWidth()*0.18;
+
+        var sectorWidth = (radius - clockEdgeWidth - offsetFromCenter)/sprites.length;
+
+        for (var i = 0; i < sprites.length; i++) {
+            sprites[i].setAttributes({
+               startRho: sectorWidth*i + offsetFromCenter,
+               endRho:  sectorWidth*i + (offsetFromCenter + sectorWidth)
+            }, true);
+        }
+    },
+
+    processData: function() {
+        console.log('processData', arguments);
+
+        this.redraw();
     }
 });

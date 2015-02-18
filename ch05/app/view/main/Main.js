@@ -4,19 +4,23 @@ Ext.define('SCE.view.main.Main', {
     requires: [
         'SCE.chart.MarketClock',
         'SCE.series.MarketClock',
-        'SCE.store.MarketTimings'
+        'SCE.store.MarketTimings',
+        'SCE.store.LocalMarketTimings'
     ],
 
     xtype: 'app-main',
 
     items: [{
-            xtype: 'marketclock',
-            height: 700,
-            width: 700,
-            store: Ext.create('SCE.store.MarketTimings'),
-            series: [{
-                type: 'marketclock',
-                angleField: 'data'
-            }]
+        xtype: 'marketclock',
+        // legend: {
+        //     docked: 'right'
+        // },
+        height: 500,
+        width: 500,
+        store: Ext.create('SCE.store.MarketTimings'),
+        series: [{
+            type: 'marketclock',
+            angleField: 'data'
         }]
+    }]
 });
