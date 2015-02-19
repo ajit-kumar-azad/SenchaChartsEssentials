@@ -116,11 +116,5 @@ Ext.define('SCE.series.MarketClock', {
                endRho:  sectorWidth*i + (offsetFromCenter + sectorWidth)
             }, true);
         }
-    },
-
-    processData: function() {
-        console.log('processData', arguments);
-
-        this.redraw();
     }
 });
