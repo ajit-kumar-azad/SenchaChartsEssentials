@@ -119,25 +119,6 @@ Ext.define('SCE.series.PeriodicTable', {
         return sprites;
 	},
 
-    provideLegendInfo: function (target) {
-        var me = this,
-            store = me.getStore();
-        if (store) {
-            var items = me.getGroupColors(),
-                i, style;
-
-            for (i in items) {
-                target.push({
-                    name: i,
-                    mark: items[i] || 'black',
-                    disabled: false,
-                    series: me.getId(),
-                    index: i
-                });
-            }
-        }
-    },
-
 	getDefaultSpriteConfig: function() {
 		return {
             type: this.seriesType,

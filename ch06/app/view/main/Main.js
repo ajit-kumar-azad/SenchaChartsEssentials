@@ -43,9 +43,6 @@ Ext.define('SCE.view.main.Main', {
 
     items: [{
         xtype: 'periodictable',
-        // legend: {
-        //     docked: 'right'
-        // },
         colors: [],
         store: Ext.create('SCE.store.HindiPTElements'),
         series: {
