@@ -15,23 +15,36 @@ Ext.define('SCE.sprite.PeriodicTable', {
     },
 
     placeLabels: function(surface, ctx, clip, rect, attr) {
+
+        var zScale = 0.2, symScale = 0.3, nameScale = 0.18;
+
     	surface.add({
     		type: 'text',
     		x: attr.x + 5,
-    		y: attr.y + 15,
+    		y: attr.y + attr.width * zScale,
     		text: attr.z,
-    		fontSize: 10,
+    		fontSize: attr.width * zScale,
     		fillStyle: 'white'
     	});
 
     	surface.add({
     		type: 'text',
     		x: attr.x + 25,
-    		y: attr.y + 35,
+    		y: attr.y + attr.width * (zScale + symScale),
     		text: attr.symbol,
     		textAlign: 'center',
-    		fontSize: 15,
+    		fontSize: attr.width * symScale,
     		fillStyle: 'white'
     	});
+
+        surface.add({
+            type: 'text',
+            x: attr.x + 5,
+            y: attr.y + attr.width*(1 - nameScale),
+            text: attr.name,
+            fontSize: attr.width * nameScale,
+            fillStyle: 'white'
+        });
+
     }
 });
