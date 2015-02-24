@@ -9,11 +9,47 @@ Ext.define('SCE.series.PeriodicTable', {
 
 	seriesType: 'ptSeries',
 
+    config: {
+        /**
+         * size of each element sprite in pixels
+         */
+        elSize: 50,
+        /**
+         * gap between two elements in pixels
+         */
+        gutter: 5,
+        /**
+         * Colors to be used for the element groups
+         */
+        groupColors: {
+            'Other Non-metals': '#C3C3C3',
+            'Alkali Metals': '#FE2E9A',
+            'Alkali-Earth Metals': '#D1EF75',
+            'Transition Metals': '#D7DF01',
+            'Lanthanides': '#FFAE79',
+            'Actinides': '#F89195',
+            'Poor Metals': '#6CD3FE',
+            'Semi Metals': '#CD8CCC',
+            'Non-Metals': '#8584EA',
+            'Nobel Gases': '#FFC90D'
+        }
+    },
+
 	getSprites: function() {
 		var me = this,
             store = me.getStore(),
-            i, j, ln, ln1,
-            colors = ['#333', 'green', 'blue'];
+            chart = me.getChart(),
+            i, j, ln, ln1;
+
+        var size = Math.max(chart.height, chart.width);
+        var elSize = me.getElSize();
+
+        if (size) {
+            elSize = (size - (17*me.getGutter()))/18;
+            me.setElSize(elSize);
+        }
+
+        var rectWidth = elSize + me.getGutter();
 
         // The store must be initialized
         if (!store) {
@@ -23,9 +59,7 @@ Ext.define('SCE.series.PeriodicTable', {
         // Return cached sprites
         var chart = me.getChart(),
             animation = me.getAnimation() || chart && chart.getAnimation(),
-            sprites = me.sprites,
-            spriteIndex = 0,
-            sprite, attr, rendererData;
+            sprites = me.sprites;
 
         if (sprites && sprites.length) {
             sprites[0].fx.setConfig(animation);
@@ -39,29 +73,22 @@ Ext.define('SCE.series.PeriodicTable', {
         for (i = 0, ln = items.length; i < ln; i++) {
         	item = items[i];
 
-        	var color = colors[0];
-
         	z = item.get('z');
 
             //handle 57-71 and 89-103 differently
             if (item.get('items')) {
             	subItems.push(item.get('items'));
-
-            	if (z === '57-71')
-            		color = colors[1];
-            	else
-            		color = colors[2];
             }
 
             attr = {
-                fillStyle: color,
                 strokeOpacity: 0,
-                x: item.get('column') * 55,
-                y: (item.get('row') - 1) * 55,
+                x: item.get('column') * rectWidth,
+                y: (item.get('row') - 1) * rectWidth,
                 z: z,
                 mass: item.get('mass'),
                 name: item.get('name'),
-                symbol: item.get('symbol')
+                symbol: item.get('symbol'),
+                group: item.get('group')
             };
             sprite = me.createSprite();
             sprite.setAttributes(attr, true);
@@ -73,19 +100,21 @@ Ext.define('SCE.series.PeriodicTable', {
 
 	        	z = item['z'];
 	            attr = {
-	                fillStyle: colors[i+1],
 	                strokeOpacity: 0,
-	                x: (item['column'] + 3) * 55,
-	                y: (item['row']*(8 + i)) * 55,
+	                x: (item['column'] + 3) * rectWidth,
+	                y: (item['row']*(8 + i)) * rectWidth,
 	                z: z,
 	                mass: item['mass'],
 	                name: item['name'],
-	                symbol: item['symbol']
+	                symbol: item['symbol'],
+                    group: item['group']
 	            };
 	            sprite = me.createSprite();
 	            sprite.setAttributes(attr, true);
         	}
         }
+
+        this.doUpdateStyles();
 
         return sprites;
 	},
@@ -93,9 +122,41 @@ Ext.define('SCE.series.PeriodicTable', {
 	getDefaultSpriteConfig: function() {
 		return {
             type: this.seriesType,
-            width: 50,
-            height: 50
+            width: this.getElSize(),
+            height: this.getElSize()
         };
-	}
+	},
 
+    applyStore: function(newStore, oldStore) {
+
+        if (newStore) {
+            var me = this;
+
+            if (me.sprites) {
+                Ext.destroy(me.sprites);
+                me.sprites = [];
+            }
+
+            if (oldStore) {
+                oldStore.setData(newStore.getData().items);
+            }
+
+            return oldStore;
+        }
+    }, 
+
+    getStyleByIndex: function (idx) {
+        var me = this,
+            style = {fillStyle:  'black'};
+
+        var sprite = me.sprites[idx];
+
+        if (sprite) {
+            style = {
+                fillStyle: me.getGroupColors()[sprite.attr.group]
+            }
+        }
+        
+        return style;
+    }
 });
