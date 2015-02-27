@@ -1,7 +1,7 @@
-Ext.define('SCE.view.main.Cartesian', {
+Ext.define('SCE.view.main.Polar', {
     extend: 'Ext.container.Container',
 
-    xtype: 'app-cartesian',
+    xtype: 'app-polar',
     
     requires: ['SCE.view.chart.theme.Awesome'],
 
@@ -12,37 +12,37 @@ Ext.define('SCE.view.main.Cartesian', {
     initComponent: function() {
         this.callParent(arguments);
 
-        Ext.create('Ext.chart.CartesianChart', {
+        Ext.create('Ext.chart.PolarChart', {
         // xtype: 'cartesian',
         floating: true,
         title: 'Chart',
 
         // theme: 'awesome',
 
-        interactions: ['crosshair', 'itemhighlight'],
+        interactions: ['rotate'],
         height: 500,
         width: 500,
 
-        // insetPadding: 40,
-        insetPadding: {
-            top: 40,
-            left: 20,
-            bottom: 5,
-            right: 5
-        },
+        insetPadding: 40,
+        // insetPadding: {
+        //     top: 40,
+        //     left: 20,
+        //     bottom: 5,
+        //     right: 5
+        // },
 
-        // legend: true,
-        legend: {
-            // docked: 'right',
-            padding: '40 0 10 0'
-        },
+        legend: true,
+        // legend: {
+        //     // docked: 'right',
+        //     padding: '40 0 10 0'
+        // },
         autoShow: true,
 
         // animation: true,
-        animation: {
-            easing: 'elasticIn',
-            duration: 1000
-        },
+        // animation: {
+        //     easing: 'elasticIn',
+        //     duration: 1000
+        // },
 
         //shadow styling
 
@@ -121,29 +121,28 @@ Ext.define('SCE.view.main.Cartesian', {
         // }],
 
         //colors
-        // colors: ['pink', '#60D5DB'],
+        colors: ['pink', '#60D5DB'],
 
         store: {
             fields: ['month', 'sales', 'order'],
             data: [
-                { month: 'Q1', sales: 100, order: 20 },
+                { month: 'Q1', sales: 180, order: 20 },
                 { month: 'Q2', sales: 250, order: 120 },
-                { month: 'Q3', sales: 75, order: 40},
-                { month: 'Q4', sales: 120, order: 25}
+                { month: 'Q3', sales: 75, order: 80},
+                { month: 'Q4', sales: 180, order: 25}
             ]
         },
         axes: [
         {
-            title: 'Quarter',
             type: 'category',
-            position: 'bottom',
+            position: 'angular',
             fields: ['month'],
-            // grid: true,
-            grid: {
-                odd: {
-                    fillStyle: '#999'
-                }
-            },
+            grid: true,
+            // grid: {
+            //     odd: {
+            //         fillStyle: '#999'
+            //     }
+            // },
             label: {
                 fillStyle: 'purple',
                 fontSize: 14,
@@ -155,7 +154,7 @@ Ext.define('SCE.view.main.Cartesian', {
         {
             title: 'Sale',
             type: 'numeric',
-            position: 'left',
+            position: 'radial',
             fields: ['sales'],
             // grid: true,
             grid: {
@@ -165,17 +164,23 @@ Ext.define('SCE.view.main.Cartesian', {
                 even: {
                     fillStyle: 'cyan'
                 },
-                opacity: 0.7
+                opacity: 0.3
             },
-            style: {
-                strokeStyle: 'red'
-                // textPadding: 20,
-                // minorTickSize: 20,
-                // majorTickSize: 20,
-                // lineWidth: 10,
-                // axisLine: false,
+            label: {
+                fontSize: 10,
+                fontFamily: 'ShadowsIntoLight',
+                fontWeight: 400,
+                color: 'purple'
+            },
+            // style: {
+            //     strokeStyle: 'red'
+            //     // textPadding: 20,
+            //     // minorTickSize: 20,
+            //     // majorTickSize: 20,
+            //     // lineWidth: 10,
+            //     // axisLine: false,
                 
-            },
+            // },
             renderer: function(label, layout, lastLabel) {
                 return '₹' + label;
             }
@@ -184,18 +189,22 @@ Ext.define('SCE.view.main.Cartesian', {
             title: {
                 text: 'Order',
                 color: 'red',
-                fontFamily: 'ShadowsIntoLight'
+                // fontFamily: 'ShadowsIntoLight'
             },
             type: 'numeric',
-            position: 'right',
+            position: 'radial',
             fields: ['order'],
-            maximum: 200,
-            label: {
-                fontSize: 14,
-                fontFamily: 'ShadowsIntoLight',
-                fontWeight: 700,
-                color: 'red',
-                rotationRads: -45
+            // maximum: 200,
+            // grid: true,
+            // label: {
+            //     fontSize: 14,
+            //     fontFamily: 'ShadowsIntoLight',
+            //     fontWeight: 700,
+            //     color: 'red',
+            //     rotationRads: -45
+            // },
+            renderer: function(label, layout, lastLabel) {
+                return '';
             }
         }],
         sprites: [{
@@ -208,36 +217,29 @@ Ext.define('SCE.view.main.Cartesian', {
             y: 20
         }],
         series: [{
-            type: 'bar',
+            type: 'radar',
             xField: 'month',
             yField: 'sales',
-            title: 'Quarterly Sale', 
+            title: 'Sale', 
             animation: {
-                easing: 'elasticIn',
+                easing: 'easeIn',
                 duration: 1000
             },
             colors: ['#888'],
             useDarkerStrokeColor: false,
-            highlight: {
-                strokeStyle: '#094144',
-                fillStyle: '#60D5DB',
-                shadowColor: "#999",
-                shadowOffsetX: 5,
-                shadowOffsetY: 5,
-                translationY: 5
+            showMarkers: true,
+            marker: {
+                type: 'cross',
+                strokeStyle: 'red'
             },
-            tooltip: {
-                trackMouse: true,
-                // style: 'background: #fff',
-                renderer: function(storeItem, item) {
-                    this.setHtml(storeItem.get('month') + ' Sales: ₹ ' + storeItem.get('sales'));
-                }
+            markerSubStyle: {
+                fillStyle: 'red'
             }
         }, {
-            type: 'line',   //'area',
+            type: 'radar',
             xField: 'month',
             yField: 'order',
-            title: 'Quarterly Order',
+            title: 'Order',
             showMarkers: true,
             marker: {
                 type: 'circle',
@@ -250,28 +252,12 @@ Ext.define('SCE.view.main.Cartesian', {
                 opacity: 0.5,
                 fillStyle: 'red'
             },
-            // markerSubStyle: {
-            //     fillStyle: 'green'
-            // },
+            markerSubStyle: {
+                fillStyle: 'green'
+            },
             // subStyle: {
             //     fillStyle: 'purple'
-            // },
-            renderer: function(sprite, config, rendererData, index) {
-                if (config.type === 'marker') {
-                    return { 
-                        fillStyle: (index % 2 === 0 ? 'red' : 'black'),
-                        radius: (index + 1) * 5
-                    };
-                }
-
-                if (config.type === 'line') {
-                    return {
-                        lineWidth: (index + 1) * 2,
-                        lineJoin: 'round'
-                    }
-                }
-
-            }
+            // }
         }]
     });
     }

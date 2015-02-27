@@ -8,7 +8,7 @@ Ext.application({
 
     extend: 'SCE.Application',
     
-    autoCreateViewport: 'SCE.view.main.Cartesian'
+    autoCreateViewport: 'SCE.view.main.Polar'
 	
     //-------------------------------------------------------------------------
     // Most customizations should be made to SCE.Application. If you need to
