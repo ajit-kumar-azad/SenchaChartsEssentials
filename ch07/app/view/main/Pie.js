@@ -3,7 +3,7 @@ Ext.define('SCE.view.main.Pie', {
 
     xtype: 'app-pie',
     
-    requires: ['SCE.view.chart.theme.Awesome'],
+    requires: ['SCE.view.chart.theme.Awesome', 'Ext.chart.theme.PurpleGradients'],
 
     layout: {
         type: 'fit'
@@ -13,15 +13,12 @@ Ext.define('SCE.view.main.Pie', {
         this.callParent(arguments);
 
         Ext.create('Ext.chart.PolarChart', {
-        // xtype: 'cartesian',
         floating: true,
         title: 'Chart',
-
-        // theme: 'awesome',
-
-        interactions: ['rotate'],
         height: 500,
         width: 500,
+
+        theme: 'purple-gradients',
 
         insetPadding: 40,
         // insetPadding: {

@@ -1,0 +1,8 @@
+.#{$prefix}legend-item {
+  background: $chart-legend-item-background;
+  font-size: $chart-legend-font-size;
+}
+
+.x-legend, .x-legend-panel .x-panel-body {
+  background: #DCDCDC;
+}
