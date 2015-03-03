@@ -13,13 +13,20 @@ Ext.define('SCE.view.main.Cartesian', {
         this.callParent(arguments);
 
         Ext.create('Ext.chart.CartesianChart', {
-        floating: true,
         title: 'Chart',
 
+        floating: true,
         height: 500,
         width: 500,
+        autoShow: true,
 
-        theme: 'awesome',
+        //shadow styling
+
+        // shadow: true,
+        shadow: 'frame',
+        shadowOffset: 20,
+
+        // theme: 'awesome',
 
         // insetPadding: 40,
         insetPadding: {
@@ -34,19 +41,6 @@ Ext.define('SCE.view.main.Cartesian', {
             // docked: 'right',
             padding: '10 0 10 0'
         },
-        autoShow: true,
-
-        // animation: true,
-        // animation: {
-        //     easing: 'elasticIn',
-        //     duration: 1000
-        // },
-
-        //shadow styling
-
-        // shadow: true,
-        shadow: 'frame',
-        shadowOffset: 20,
         
         //chart background styling
 
@@ -166,12 +160,12 @@ Ext.define('SCE.view.main.Cartesian', {
             //     opacity: 0.7
             // },
             // style: {
-            //     strokeStyle: 'red'
-            //     // textPadding: 20,
+            //     strokeStyle: 'red',
+            //     textPadding: 40,
             //     // minorTickSize: 20,
             //     // majorTickSize: 20,
-            //     // lineWidth: 10,
-            //     // axisLine: false,
+            //     lineWidth: 2,
+            //     // axisLine: false
                 
             // },
             renderer: function(label, layout, lastLabel) {
@@ -235,39 +229,52 @@ Ext.define('SCE.view.main.Cartesian', {
             yField: 'order',
             title: 'Quarterly Order',
             showMarkers: true,
+            // highlight: {
+            //     strokeStyle: '#094144',
+            //     fillStyle: '#60D5DB',
+            //     shadowColor: "#999",
+            //     shadowOffsetX: 5,
+            //     shadowOffsetY: 5,
+            //     translationY: 5
+            // },
             marker: {
-                type: 'circle',
-                radius: 5,
-                // fillStyle: 'url(#gradientId1)',
-                // strokeStyle: 'url(#gradientId2)',
+                // type: 'circle',
+                radius: 15,
+                fillStyle: 'url(#gradientId1)',
+                strokeStyle: 'url(#gradientId2)',
                 // fillStyle: 'red'
             },
-            // style: {
-            //     opacity: 0.5,
-            //     fillStyle: 'red'
-            // },
+            style: {
+                opacity: 0.5,
+                fillStyle: 'red'
+            },
             // markerSubStyle: {
-            //     fillStyle: 'green'
+            //     fillStyle: 'green',
+            //     // strokeStyle: 'red',
+            //     radius: 15,
+            //     shadowColor: "pink",
+            //     shadowOffsetX: 2,
+            //     shadowOffsetY: 2
             // },
             // subStyle: {
             //     fillStyle: 'purple'
             // },
-            // renderer: function(sprite, config, rendererData, index) {
-            //     if (config.type === 'marker') {
-            //         return { 
-            //             fillStyle: (index % 2 === 0 ? 'red' : 'black'),
-            //             radius: (index + 1) * 5
-            //         };
-            //     }
+            renderer: function(sprite, config, rendererData, index) {
+                if (config.type === 'marker') {
+                    return { 
+                        fillStyle: (index % 2 === 0 ? 'red' : 'black'),
+                        radius: (index + 1) * 5
+                    };
+                }
 
-            //     if (config.type === 'line') {
-            //         return {
-            //             lineWidth: (index + 1) * 2,
-            //             lineJoin: 'round'
-            //         }
-            //     }
+                if (config.type === 'line') {
+                    return {
+                        lineWidth: (index + 1) * 2,
+                        lineJoin: 'round'
+                    }
+                }
 
-            // }
+            }
         }]
     });
     }
