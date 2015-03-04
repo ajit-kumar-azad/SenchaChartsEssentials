@@ -8,7 +8,8 @@ Ext.define('SCE.view.main.Main', {
             'SCE.store.PTElements',
             'SCE.series.PeriodicTable',
             'SCE.store.HindiPTElements',
-            'SCE.chart.PeriodicTable'],
+            'SCE.chart.PeriodicTable',
+            'SCE.interactions.ItemSelect'],
     
     layout: {
         type: 'fit'
@@ -43,12 +44,19 @@ Ext.define('SCE.view.main.Main', {
 
     items: [{
         xtype: 'periodictable',
+        interactions: ['itemselect'],
         colors: [],
         store: Ext.create('SCE.store.HindiPTElements'),
         series: {
-            type: 'periodictable'
+            type: 'periodictable',
+            highlight: {
+                fillStyle: 'cyan',
+                width: 200,
+                height: 200,
+                strokeStyle: 'red'
+            }
         },
-        width: 700,
+        width: 1000,
         height: 700,
         sprites: {
             type: 'text',
@@ -56,6 +64,11 @@ Ext.define('SCE.view.main.Main', {
             fontSize: 40,
             x: 400,
             y: 40
+        },
+        listeners: {
+            itemselect: function(itemSelected) {
+                alert('Selected element is: ' + itemSelected.record.get(itemSelected.field));
+            }
         }
     }]
 });

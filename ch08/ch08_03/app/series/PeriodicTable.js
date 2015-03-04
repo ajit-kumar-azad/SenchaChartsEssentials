@@ -158,5 +158,52 @@ Ext.define('SCE.series.PeriodicTable', {
         }
         
         return style;
+    },
+
+    getItemForPoint: function (x, y) {
+        if (this.getSprites()) {
+            var me = this,
+                sprite = me.getSprites()[0],
+                store = me.getStore(),
+                item, index;
+
+            if (me.getHidden()) {
+                return null;
+            }
+            if (sprite) {
+                index = me.getIndexNearPoint(x, y);
+                if (index !== -1) {
+                    item = {
+                        series: me,
+                        category: 'items',
+                        index: index,
+                        record: store.getData().items[index],
+                        field: 'name', //me.getYField(),
+                        sprite: sprite
+                    };
+                    return item;
+                }
+            }
+        }
+    },
+
+    getIndexNearPoint: function(x, y) {
+        var me = this;
+        var tmp = null,
+            items = me.sprites, 
+            i, 
+            l = items.length;
+
+        for (i = 0; i < l; i++) {
+            tmp = items[i];
+
+            var attr = tmp.attr;
+
+            if ((x >= attr.x && x <= (attr.x + attr.width)) && 
+                (y >= attr.y && y <= (attr.y + attr.height))) {
+                return i;
+            }
+        }
+
     }
 });
