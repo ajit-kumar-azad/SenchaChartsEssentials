@@ -5,13 +5,15 @@ Ext.define('SCE.view.main.Main', {
         'SCE.chart.MarketClock',
         'SCE.series.MarketClock',
         'SCE.store.MarketTimings',
-        'SCE.store.LocalMarketTimings'
+        'SCE.store.LocalMarketTimings',
+        'SCE.interactions.Annotation'
     ],
 
     xtype: 'app-main',
 
     items: [{
         xtype: 'marketclock',
+        interactions: ['annotation'],
         // legend: {
         //     docked: 'right'
         // },
