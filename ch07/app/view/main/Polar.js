@@ -220,10 +220,6 @@ Ext.define('SCE.view.main.Polar', {
             xField: 'month',
             yField: 'sales',
             title: 'Sale', 
-            animation: {
-                easing: 'easeIn',
-                duration: 1000
-            },
             colors: ['#888'],
             useDarkerStrokeColor: false,
             showMarkers: true,
@@ -247,10 +243,10 @@ Ext.define('SCE.view.main.Polar', {
                 // strokeStyle: 'url(#gradientId2)',
                 // fillStyle: 'red'
             },
-            style: {
-                opacity: 0.5,
-                fillStyle: 'red'
-            },
+            // style: {
+            //     opacity: 0.5,
+            //     fillStyle: 'red'
+            // },
             markerSubStyle: {
                 fillStyle: 'green'
             },
