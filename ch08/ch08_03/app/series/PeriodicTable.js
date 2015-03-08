@@ -178,7 +178,7 @@ Ext.define('SCE.series.PeriodicTable', {
                         category: 'items',
                         index: index,
                         record: store.getData().items[index],
-                        field: 'name', //me.getYField(),
+                        field: 'name', 
                         sprite: sprite
                     };
                     return item;

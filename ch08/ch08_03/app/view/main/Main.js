@@ -9,7 +9,7 @@ Ext.define('SCE.view.main.Main', {
             'SCE.series.PeriodicTable',
             'SCE.store.HindiPTElements',
             'SCE.chart.PeriodicTable',
-            'SCE.interactions.ItemSelect'],
+            'SCE.interactions.ItemHighlight'],
     
     layout: {
         type: 'fit'
@@ -44,7 +44,7 @@ Ext.define('SCE.view.main.Main', {
 
     items: [{
         xtype: 'periodictable',
-        interactions: ['itemselect'],
+        interactions: ['sce-itemhighlight'],
         colors: [],
         store: Ext.create('SCE.store.HindiPTElements'),
         series: {
@@ -66,8 +66,10 @@ Ext.define('SCE.view.main.Main', {
             y: 40
         },
         listeners: {
-            itemselect: function(itemSelected) {
-                alert('Selected element is: ' + itemSelected.record.get(itemSelected.field));
+            itemhighlight: function(itemSelected) {
+                if (itemSelected && itemSelected.record) {
+                    alert('Selected element is: ' + itemSelected.record.get(itemSelected.field));
+                }
             }
         }
     }]

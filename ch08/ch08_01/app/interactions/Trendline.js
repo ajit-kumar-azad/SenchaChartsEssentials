@@ -30,10 +30,10 @@ Ext.define('SCE.interactions.Trendline', {
     getGestures: function () {
         var me = this,
             gestures = {};
+        gestures[me.getGesture() + 'start'] = 'onGestureStart';
         gestures[me.getGesture()] = 'onGesture';
-        // gestures[me.getGesture() + 'start'] = 'onGestureStart';
         gestures[me.getGesture() + 'end'] = 'onGestureEnd';
-        gestures['mousedown'] = 'onGestureStart';
+        // gestures['mousedown'] = 'onGestureStart';
         return gestures;
     },
 
@@ -57,8 +57,6 @@ Ext.define('SCE.interactions.Trendline', {
                 fromX: x,
                 fromY: y
             }, lineConfig));
-
-            return false;
         }
 
     },
@@ -95,7 +93,6 @@ Ext.define('SCE.interactions.Trendline', {
 
         me.trendLine.setAttributes({toX: x, toY: y});
         surface.renderFrame();
-        return false;
     },
 
     onGestureEnd: function (e) {

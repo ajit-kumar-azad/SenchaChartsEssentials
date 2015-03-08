@@ -10,7 +10,6 @@ Ext.define('SCE.interactions.Annotation', {
 
     config: {
         addGesture: 'doubletap',
-        moveGesture: 'drag',
         editGesture: 'tap',
 
         events: [
@@ -20,14 +19,7 @@ Ext.define('SCE.interactions.Annotation', {
         ]  
     },
 
-    annotations: [],    //internal. Structure is {text: '', sprite: Image sprite object}
-
-    updateChart: function (chart) {
-        // if (!(chart instanceof Ext.chart.CartesianChart)) {
-        //     throw 'Annotation interaction can only be used on cartesian charts.';
-        // }
-        this.callParent(arguments);
-    },
+    annotations: [],  
 
     getGestures: function () {
         var me = this,
