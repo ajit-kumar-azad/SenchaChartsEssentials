@@ -182,11 +182,17 @@ Ext.define('SCE.view.main.Cartesian', {
             position: 'right',
             fields: ['order'],
             maximum: 200,
+            style: {
+                strokeStyle: 'red'
+            },
             // label: {
             //     fontSize: 14,
             //     color: 'red',
             //     rotationRads: -45
-            // }
+            // },
+            renderer: function(label, layout, lastLabel) {
+                return '₹' + label;
+            }
         }],
         sprites: [{
             type: 'text',
@@ -259,6 +265,13 @@ Ext.define('SCE.view.main.Cartesian', {
             // subStyle: {
             //     fillStyle: 'purple'
             // },
+            tooltip: {
+                trackMouse: true,
+                // style: 'background: #fff',
+                renderer: function(storeItem, item) {
+                    this.setHtml(storeItem.get('month') + ' Orders: ₹ ' + storeItem.get('sales'));
+                }
+            },
             renderer: function(sprite, config, rendererData, index) {
                 if (config.type === 'marker') {
                     return { 

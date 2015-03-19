@@ -9,10 +9,6 @@ $(function () {
             text: 'Quarterly Sales and Orders'
         },
 
-        credits: {
-            enabled: false
-        },
-
         xAxis: { 
             categories: ['Q1', 'Q2', 'Q3', 'Q4'],
             title: 'Quarters',
@@ -75,11 +71,11 @@ $(function () {
                 type: 'category',
                 y: 250
             }, {
-                name: 'Q1',
+                name: 'Q3',
                 type: 'category',
                 y: 75
             }, {
-                name: 'Q1',
+                name: 'Q4',
                 type: 'category',
                 y: 120
             }],
@@ -110,14 +106,14 @@ $(function () {
                     }
                 }
             }, {
-                name: 'Q1',
+                name: 'Q3',
                 type: 'category',
                 y: 40,
                 marker: {
                     radius: 16
                 }
             }, {
-                name: 'Q1',
+                name: 'Q4',
                 type: 'category',
                 y: 25,
                 marker: {

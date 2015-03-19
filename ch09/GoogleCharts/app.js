@@ -1,21 +1,16 @@
-// Load the Visualization API and the piechart package.
 google.load('visualization', '1.0', {'packages':['corechart']});
 
 // Set a callback to run when the Google Visualization API is loaded.
 google.setOnLoadCallback(drawChart);
 
-
-// Callback that creates and populates a data table, 
-// instantiates the pie chart, passes in the data and
-// draws it.
 function drawChart() {
 
         var data = new google.visualization.arrayToDataTable([
           ['Month', 'Sales', {role: 'tooltip'}, 'Order', {role: 'tooltip'}, {role: 'emphasis'}, {'type': 'string', 'role': 'style'}],
-          ['Q1', 100, 'Q1 Sales: \u20B9100', 20, 'Q1 Orders: \u20B920', false, 'point { size: 10; fill-color: red'],
-          ['Q2', 250, 'Q2 Sales: \u20B9250', 120, 'Q2 Orders: \u20B9120', false, 'point { size: 60; fill-color: black'],
-          ['Q3', 75, 'Q3 Sales: \u20B975', 40, 'Q3 Orders: \u20B940', true, 'point { size: 20; fill-color: red'],
-          ['Q4', 120, 'Q4 Sales: \u20B9120', 25, 'Q4 Orders: \u20B925', true, 'point { size: 15; fill-color: black']
+          ['Q1', 100, 'Q1 Sales: \u20B9100', 20, 'Q1 Orders: \u20B920', false, 'point { size: 10; fill-color: red }'],
+          ['Q2', 250, 'Q2 Sales: \u20B9250', 120, 'Q2 Orders: \u20B9120', false, 'point { size: 60; fill-color: black }'],
+          ['Q3', 75, 'Q3 Sales: \u20B975', 40, 'Q3 Orders: \u20B940', true, 'point { size: 20; fill-color: red }'],
+          ['Q4', 120, 'Q4 Sales: \u20B9120', 25, 'Q4 Orders: \u20B925', true, 'point { size: 15; fill-color: black }']
         ]);
 
         var options = {

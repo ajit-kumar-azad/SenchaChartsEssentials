@@ -74,11 +74,11 @@ $(function () {
                 type: 'category',
                 y: 250
             }, {
-                name: 'Q1',
+                name: 'Q3',
                 type: 'category',
                 y: 75
             }, {
-                name: 'Q1',
+                name: 'Q4',
                 type: 'category',
                 y: 120
             }],
@@ -109,14 +109,14 @@ $(function () {
                     }
                 }
             }, {
-                name: 'Q1',
+                name: 'Q3',
                 type: 'category',
                 y: 40,
                 marker: {
                     radius: 16
                 }
             }, {
-                name: 'Q1',
+                name: 'Q4',
                 type: 'category',
                 y: 25,
                 marker: {

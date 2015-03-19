@@ -1,8 +1,8 @@
 // Add the background image to the container
-Highcharts.wrap(Highcharts.Chart.prototype, 'getContainer', function (proceed) {
-	proceed.call(this);
-	this.container.style.background = 'url(http://www.psdgraphics.com/file/energy-efficiency-background.jpg) 0px 0px/600px 500px no-repeat';
-});
+// Highcharts.wrap(Highcharts.Chart.prototype, 'getContainer', function (proceed) {
+// 	proceed.call(this);
+// 	this.container.style.background = 'url(http://www.psdgraphics.com/file/energy-efficiency-background.jpg) 0px 0px/600px 500px no-repeat';
+// });
 
 
 Highcharts.theme = {
