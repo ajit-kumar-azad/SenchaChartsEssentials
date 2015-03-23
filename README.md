@@ -1,7 +1,7 @@
 Sencha Charts Essentials
 ========================
 
-This folder contains chapter wise code for Sencha Charts Essentials book from Packt Publication.
+This folder contains chapter wise code for [Sencha Charts Essentials](https://www.packtpub.com/web-development/sencha-charts-essentials) book from Packt Publication.
 
 Following are the chapters:
 
