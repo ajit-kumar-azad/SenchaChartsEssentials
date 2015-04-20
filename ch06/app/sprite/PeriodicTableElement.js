@@ -1,4 +1,4 @@
-Ext.define('SCE.sprite.PeriodicTable', {
+Ext.define('SCE.sprite.PeriodicTableElement', {
     alias: 'sprite.ptSeries',
     extend: 'Ext.draw.sprite.Rect',
 

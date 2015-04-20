@@ -3,7 +3,7 @@ Ext.define('SCE.series.PeriodicTable', {
 	alias: 'series.periodictable',
 	extend: 'Ext.chart.series.Series',
 
-	requires: ['SCE.sprite.PeriodicTable'],
+	requires: ['SCE.sprite.PeriodicTableElement'],
 
 	type: 'periodictable',
 
