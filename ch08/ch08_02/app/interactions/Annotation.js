@@ -113,7 +113,7 @@ Ext.define('SCE.interactions.Annotation', {
 
         var chart = me.getChart(),
             surface = chart.getSurface('overlay'),
-            rect = Ext.Array.slice(chart.getMainRect()),
+            rect = chart.getMainRect(),
             chartWidth = rect[2],
             chartHeight = rect[3],
             xy = chart.getEventXY(e),
