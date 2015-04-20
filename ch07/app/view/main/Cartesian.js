@@ -44,10 +44,10 @@ Ext.define('SCE.view.main.Cartesian', {
         
         //chart background styling
 
-        // background: {
-        //     type: 'image',
-        //     src: 'http://www.psdgraphics.com/file/energy-efficiency-background.jpg'
-        // },
+        background: {
+            type: 'image',
+            src: 'resources/images/energy-efficiency-background.jpg'
+        },
         // background: {
         //     type: 'linear',
         //     degrees: 0,
