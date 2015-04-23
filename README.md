@@ -11,6 +11,6 @@ Following are the chapters:
 4. Creating custom Cartesian chart
 5. Creating custom Polar chart
 6. Creating custom Space Filling chart
-7. Theming the custom charts
+7. Theming
 8. Working with touch gestures
-9. Working with other charting libraries
+9. Comparison with other JavaScript charting libraries
